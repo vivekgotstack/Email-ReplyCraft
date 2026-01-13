@@ -8,6 +8,7 @@ import com.email.writer.dto.SuccessResponse;
 import com.email.writer.service.EmailGeneratorService;
 
 import jakarta.validation.Valid;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/email")
@@ -20,8 +21,14 @@ public class EmailGeneratorController {
     }
 
     @PostMapping("/generate")
-    public ResponseEntity<SuccessResponse<String>> generateEmail(@Valid @RequestBody EmailRequestDTO dto) {
-        String response = emailGeneratorService.generateRequest(dto);
-        return ResponseEntity.ok(new SuccessResponse<>("Response generated",response));
+    public Mono<ResponseEntity<SuccessResponse<String>>> generateEmail(
+            @Valid @RequestBody EmailRequestDTO dto) {
+
+        return emailGeneratorService.generateRequest(dto)
+                .map(response ->
+                        ResponseEntity.ok(
+                                new SuccessResponse<>("Response generated", response)
+                        )
+                );
     }
 }

@@ -1,5 +1,6 @@
 package com.email.writer.service;
 
+import java.time.Duration;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,7 @@ import com.email.writer.dto.EmailRequestDTO;
 import com.email.writer.dto.GeminiResponse;
 import com.email.writer.exception.EmptyEmailException;
 
-import java.time.Duration;
+import reactor.core.publisher.Mono;
 
 @Service
 public class EmailGeneratorService {
@@ -29,10 +30,10 @@ public class EmailGeneratorService {
                                 .build();
         }
 
-        public String generateRequest(EmailRequestDTO emailRequest) {
+        public Mono<String> generateRequest(EmailRequestDTO emailRequest) {
 
                 if (emailRequest.getEmailContent() == null || emailRequest.getEmailContent().isBlank()) {
-                        throw new EmptyEmailException("Email content cannot be empty");
+                        return Mono.error(new EmptyEmailException("Email content cannot be empty"));
                 }
 
                 String prompt = buildPrompt(emailRequest);
@@ -51,21 +52,14 @@ public class EmailGeneratorService {
                                 .onStatus(
                                                 status -> status.isError(),
                                                 response -> response.bodyToMono(String.class)
-                                                                .map(error -> new RuntimeException(
-                                                                                "Gemini API error: " + error)))
-
+                                                                .flatMap(err -> Mono.error(
+                                                                                new RuntimeException(
+                                                                                                "Gemini API error: "
+                                                                                                                + err))))
                                 .bodyToMono(GeminiResponse.class)
                                 .map(res -> res.candidates()[0].content().parts()[0].text())
-                                .timeout(Duration.ofSeconds(20))
-                                .block();
+                                .timeout(Duration.ofSeconds(20));
         }
-
-        // NOTE To Myself(if u wanna know more abt object mapper search for it):
-        // I intentionally map the Gemini JSON response directly to DTOs
-        // instead of using ObjectMapper + JsonNode.
-        // Spring/Jackson already uses ObjectMapper under the hood here,
-        // giving us compile-time safety and cleaner code.
-        // ObjectMapper would be a valid alternative for ad-hoc or dynamic parsing.
 
         private String buildPrompt(EmailRequestDTO emailRequest) {
 
