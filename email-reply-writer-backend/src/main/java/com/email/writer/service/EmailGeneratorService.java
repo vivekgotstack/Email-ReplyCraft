@@ -56,7 +56,7 @@ public class EmailGeneratorService {
 
                                 .bodyToMono(GeminiResponse.class)
                                 .map(res -> res.candidates()[0].content().parts()[0].text())
-                                .timeout(Duration.ofSeconds(15))
+                                .timeout(Duration.ofSeconds(20))
                                 .block();
         }
 
