@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: email-reply-writer-backend
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
