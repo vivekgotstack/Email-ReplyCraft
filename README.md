@@ -18,7 +18,7 @@ That’s it.
 
 ## 🎯 Features
 
-* ⚡ **Instant replies** — no lag, no nonsense
+* ⚡ **Replies with placeholders** — no random names, no mistakes, your control
 * 🎭 **Tone control** — professional, friendly, concise, persuasive, sarcastic
 * 🧠 **Context-aware generation** — understands intent, not just words
 * 🎯 **Clean UI** — distraction-free experience
@@ -57,7 +57,7 @@ That’s it.
 2. Selects a tone (or defaults to professional)
 3. Request is sent to backend
 4. AI generates a context-aware reply
-5. Response is returned instantly
+5. Response is returned with placeholder which you can customize before using
 
 ---
 
@@ -112,6 +112,17 @@ cd backend
 * 📎 Email threading context
 * 🧠 Smarter tone blending
 * 📋 Copy-to-clipboard & integrations
+
+---
+
+## 🧩 Smart Placeholders
+
+ReplyCraft may include placeholders such as:
+
+{{PROJECT_NAME}}, {{REPLY_SENDER_NAME}}
+
+This is by design — it keeps responses flexible and reusable.  
+Replace them with your actual details before sending.
 
 ---
 
