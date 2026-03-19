@@ -1,4 +1,8 @@
+<div align="center">
+
 # ✨ ReplyCraft
+
+</div>
 
 **Write smarter replies. Choose your tone.**
 
