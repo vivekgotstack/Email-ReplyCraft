@@ -12,6 +12,6 @@ public class EmailRequestDTO {
     @Size(max = 5000, message = "Email content is too long")
     private String emailContent;
 
-    @Size(max = 30, message = "Tone value is too long")
+    @Size(max = 500, message = "Tone value is too long")
     private String tone;
 }
