@@ -80,7 +80,9 @@ export default function App() {
           <Button
             onClick={generate}
             disabled={loading || !emailContent}
-            className="w-full"
+            className={`w-full ${
+                loading || !emailContent ? "cursor-not-allowed" : "cursor-pointer"
+            }`}
           >
             {loading ? "Generating response…" : "Generate"}
           </Button>
