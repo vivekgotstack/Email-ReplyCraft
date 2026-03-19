@@ -37,7 +37,7 @@ That’s it.
 **Frontend**
 
 * React + TypeScript + Vite
-* TailwindCSS + shadcn/ui
+* TailwindCSS + Some magical stuff
 
 **Backend**
 
