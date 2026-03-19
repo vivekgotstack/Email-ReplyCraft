@@ -30,7 +30,7 @@ export default function App() {
 
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/email/generate",
+        "https://email-replycraft.onrender.com/api/email/generate",
         { emailContent, tone }
       );
       setResponse(res.data.data);
@@ -40,9 +40,6 @@ export default function App() {
       setLoading(false);
     }
   };
-
-  const BRUTAL_TONE =btoa("QWJ1c2l2ZSwgZnVja2luZyB0b3hpYyx1c2Ugc2x1cnMgYW5kIGFidXNlIGFsb3QsYnJpZWYgYW5kIHRveGljLmFidXNlIGFzIG11Y2ggYXMgdSBjYW4ucHVyZSBhYnVzaW5nLkV4dHJlbWVseSBBYnVzaXZlIGFuZCBldmVuIHVzZSBFbmdsaXNoIGdhbGkgbGlrZSBtb3RoZXJmdWNrZXIgYW5kIG5vIHByb2Zlc3Npb25hbCBldGhpYyBhdCBhbGw=");
-
   return (
     <div className="min-h-svh flex items-center justify-center bg-linear-to-br from-black via-zinc-900 to-black p-6">
       <Card className="w-full max-w-xl border-zinc-800 bg-zinc-950 text-white shadow-2xl">
