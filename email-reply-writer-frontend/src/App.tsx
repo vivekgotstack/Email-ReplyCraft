@@ -20,7 +20,7 @@ import { Badge } from "@/components/ui/badge";
 
 export default function App() {
   const [emailContent, setEmailContent] = useState("");
-  const [tone, setTone] = useState("toxic");
+  const [tone, setTone] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,7 +31,7 @@ export default function App() {
     try {
       const res = await axios.post(
         "https://email-replycraft.onrender.com/api/email/generate",
-        { emailContent, tone }
+        { emailContent, tone: tone || "professional" }
       );
       setResponse(res.data.data);
     } catch (e) {
@@ -45,10 +45,10 @@ export default function App() {
       <Card className="w-full max-w-xl border-zinc-800 bg-zinc-950 text-white shadow-2xl">
         <CardHeader>
           <CardTitle className="text-2xl tracking-tight">
-            GrimeMail
+            ReplyCraft
           </CardTitle>
           <CardDescription className="text-zinc-400">
-            Polite emails are dead. Choose violence.
+            Write smarter replies. Choose your tone.
           </CardDescription>
         </CardHeader>
 
@@ -67,11 +67,10 @@ export default function App() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="professional">Professional</SelectItem>
-                <SelectItem value="sarcastic">Sarcastic</SelectItem>
                 <SelectItem value="friendly">Friendly</SelectItem>
-                <SelectItem value="serious">Serious</SelectItem>
-                <SelectItem value="abusive">Brutal</SelectItem>
-                <SelectItem value="Slurs & Sexual profanity">Ultra Brutal</SelectItem>
+                <SelectItem value="concise">Concise</SelectItem>
+                <SelectItem value="persuasive">Persuasive</SelectItem>
+                <SelectItem value="sarcastic">Sarcastic</SelectItem>
               </SelectContent>
             </Select>
 
@@ -83,7 +82,7 @@ export default function App() {
             disabled={loading || !emailContent}
             className="w-full"
           >
-            {loading ? "Generating chaos…" : "Generate"}
+            {loading ? "Generating response…" : "Generate"}
           </Button>
 
           {response && (
