@@ -6,9 +6,9 @@
 
 **Write smarter replies. Choose your tone.**
 
-ReplyCraft is a minimal, fast, and sharp AI-powered email reply generator built for people who are tired of overthinking responses.
+ReplyCraft is a minimal, NOT fast(Free Gemini tier), and sharp AI-powered email reply generator built for people who are tired of overthinking responses.
 
-No fluff. No overengineering. Just better replies — instantly.
+No fluff. No overengineering. Just better replies.
 
 ---
 
