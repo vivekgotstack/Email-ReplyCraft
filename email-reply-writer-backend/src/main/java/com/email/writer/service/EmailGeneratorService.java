@@ -53,7 +53,7 @@ public class EmailGeneratorService {
                 String prompt = buildPrompt(emailRequest);
 
                 Map<String, Object> body = Map.of(
-                                "model", "google/gemini-2.0-flash-exp:free",
+                                "model", "meta-llama/llama-3.3-8b-instruct:free",
 
                                 "messages", new Object[] {
                                                 Map.of(
