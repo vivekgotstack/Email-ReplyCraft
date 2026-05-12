@@ -14,21 +14,23 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/email")
 public class EmailGeneratorController {
 
-    private final EmailGeneratorService emailGeneratorService;
+        private final EmailGeneratorService emailGeneratorService;
 
-    public EmailGeneratorController(EmailGeneratorService emailGeneratorService) {
-        this.emailGeneratorService = emailGeneratorService;
-    }
+        public EmailGeneratorController(EmailGeneratorService emailGeneratorService) {
+                this.emailGeneratorService = emailGeneratorService;
+        }
 
-    @PostMapping("/generate")
-    public Mono<ResponseEntity<SuccessResponse<String>>> generateEmail(
-            @Valid @RequestBody EmailRequestDTO dto) {
+        @GetMapping("/ping")
+        public ResponseEntity<String> ping() {
+                return ResponseEntity.ok("alive");
+        }
 
-        return emailGeneratorService.generateRequest(dto)
-                .map(response ->
-                        ResponseEntity.ok(
-                                new SuccessResponse<>("Response generated", response)
-                        )
-                );
-    }
+        @PostMapping("/generate")
+        public Mono<ResponseEntity<SuccessResponse<String>>> generateEmail(
+                        @Valid @RequestBody EmailRequestDTO dto) {
+
+                return emailGeneratorService.generateRequest(dto)
+                                .map(response -> ResponseEntity.ok(
+                                                new SuccessResponse<>("Response generated", response)));
+        }
 }
