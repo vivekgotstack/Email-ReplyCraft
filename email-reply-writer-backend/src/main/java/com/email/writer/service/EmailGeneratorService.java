@@ -53,7 +53,7 @@ public class EmailGeneratorService {
                 String prompt = buildPrompt(emailRequest);
 
                 Map<String, Object> body = Map.of(
-                                "model", "meta-llama/llama-3.3-8b-instruct:free",
+                                "model", "openrouter/free",
 
                                 "messages", new Object[] {
                                                 Map.of(
