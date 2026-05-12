@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,108 +18,162 @@ import reactor.core.publisher.Mono;
 @Service
 public class EmailGeneratorService {
 
-        private final WebClient webClient;
+    private final WebClient webClient;
+    private final String geminiApiKey;
 
-        public EmailGeneratorService(
-                        @Value("${gemini.api.url}") String geminiApiUrl,
-                        @Value("${gemini.api.key}") String geminiApiKey) {
+    public EmailGeneratorService(
+            @Value("${gemini.api.url}") String geminiApiUrl,
+            @Value("${gemini.api.key}") String geminiApiKey) {
 
-                this.webClient = WebClient.builder()
-                                .baseUrl(geminiApiUrl)
-                                .defaultHeader("x-goog-api-key", geminiApiKey)
-                                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                                .build();
+        this.geminiApiKey = geminiApiKey;
+
+        System.out.println("========= GEMINI CONFIG =========");
+        System.out.println("Gemini URL: " + geminiApiUrl);
+        System.out.println("API KEY EXISTS: " +
+                (geminiApiKey != null && !geminiApiKey.isBlank()));
+        System.out.println("=================================");
+
+        this.webClient = WebClient.builder()
+                .baseUrl(geminiApiUrl)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    }
+
+    public Mono<String> generateRequest(EmailRequestDTO emailRequest) {
+
+        System.out.println("========= REQUEST START =========");
+
+        if (emailRequest.getEmailContent() == null
+                || emailRequest.getEmailContent().isBlank()) {
+
+            System.out.println("Email content empty!");
+
+            return Mono.error(
+                    new EmptyEmailException("Email content cannot be empty"));
         }
 
-        public Mono<String> generateRequest(EmailRequestDTO emailRequest) {
+        String prompt = buildPrompt(emailRequest);
 
-                if (emailRequest.getEmailContent() == null || emailRequest.getEmailContent().isBlank()) {
-                        return Mono.error(new EmptyEmailException("Email content cannot be empty"));
-                }
+        System.out.println("Prompt Length: " + prompt.length());
 
-                String prompt = buildPrompt(emailRequest);
+        Map<String, Object> body = Map.of(
+                "contents", new Object[] {
+                        Map.of(
+                                "parts", new Object[] {
+                                        Map.of("text", prompt)
+                                })
+                });
 
-                Map<String, Object> body = Map.of(
-                                "contents", new Object[] {
-                                                Map.of(
-                                                                "parts", new Object[] {
-                                                                                Map.of("text", prompt)
-                                                                })
-                                });
+        System.out.println("Sending request to Gemini...");
 
-                return webClient.post()
-                                .bodyValue(body)
-                                .retrieve()
-                                .onStatus(
-                                                status -> status.isError(),
-                                                response -> response.bodyToMono(String.class)
-                                                                .flatMap(err -> Mono.error(
-                                                                                new RuntimeException(
-                                                                                                "Gemini API error: "
-                                                                                                                + err))))
-                                .bodyToMono(GeminiResponse.class)
-                                .map(res -> res.candidates()[0].content().parts()[0].text())
-                                .timeout(Duration.ofSeconds(20));
+        return webClient.post()
+                .uri(uriBuilder -> uriBuilder
+                        .queryParam("key", geminiApiKey)
+                        .build())
+                .bodyValue(body)
+                .retrieve()
+
+                .onStatus(
+                        status -> status.isError(),
+                        response -> response.bodyToMono(String.class)
+                                .flatMap(errorBody -> {
+
+                                    System.out.println("========= GEMINI ERROR =========");
+                                    System.out.println(errorBody);
+                                    System.out.println("================================");
+
+                                    return Mono.error(
+                                            new RuntimeException(
+                                                    "Gemini API Error: " + errorBody));
+                                }))
+
+                .bodyToMono(GeminiResponse.class)
+
+                .doOnNext(response -> {
+                    System.out.println("========= GEMINI SUCCESS RESPONSE =========");
+                    System.out.println(response);
+                    System.out.println("===========================================");
+                })
+
+                .map(response -> {
+
+                    if (response == null) {
+                        throw new RuntimeException("Gemini response is null");
+                    }
+
+                    if (response.candidates() == null
+                            || response.candidates().length == 0) {
+
+                        throw new RuntimeException(
+                                "No candidates returned from Gemini");
+                    }
+
+                    if (response.candidates()[0].content() == null) {
+                        throw new RuntimeException(
+                                "Candidate content is null");
+                    }
+
+                    if (response.candidates()[0].content().parts() == null
+                            || response.candidates()[0].content().parts().length == 0) {
+
+                        throw new RuntimeException(
+                                "Candidate parts are null/empty");
+                    }
+
+                    String text =
+                            response.candidates()[0]
+                                    .content()
+                                    .parts()[0]
+                                    .text();
+
+                    System.out.println("========= GENERATED RESPONSE =========");
+                    System.out.println(text);
+                    System.out.println("======================================");
+
+                    return text;
+                })
+
+                .doOnError(error -> {
+                    System.out.println("========= FULL ERROR =========");
+                    error.printStackTrace();
+                    System.out.println("==============================");
+                })
+
+                .timeout(Duration.ofSeconds(60));
+    }
+
+    private String buildPrompt(EmailRequestDTO emailRequest) {
+
+        String tone = emailRequest.getTone() == null
+                ? null
+                : emailRequest.getTone().trim().toLowerCase();
+
+        StringBuilder prompt = new StringBuilder(550);
+
+        prompt.append("""
+                You are an assistant that writes email replies.
+
+                STRICT RULES:
+                - Do NOT include a subject line.
+                - Write ONLY the email body.
+                - Do NOT explain your reasoning.
+
+                ORIGINAL EMAIL:
+                ---
+                """);
+
+        prompt.append(emailRequest.getEmailContent());
+
+        prompt.append("""
+                ---
+
+                WRITE THE REPLY BELOW.
+                """);
+
+        if (tone != null && !tone.isBlank()) {
+            prompt.append("\nTone: ").append(tone);
         }
 
-        private String buildPrompt(EmailRequestDTO emailRequest) {
-
-                String tone = emailRequest.getTone() == null
-                                ? null
-                                : emailRequest.getTone().trim().toLowerCase();
-
-                StringBuilder prompt = new StringBuilder(550);
-
-                prompt.append("""
-                                You are an assistant that writes email replies.
-
-                                STRICT RULES:
-                                - Do NOT include a subject line.
-                                - Write ONLY the email body.
-                                - Do NOT explain your reasoning.
-                                - Do NOT invent real company names, people, or dates.
-
-                                PLACEHOLDER RULES:
-                                - Use placeholders wrapped in double curly braces.
-                                - If a company name is needed, use {{ORGANIZATION_NAME}}
-                                - If a sender name is needed, use {{SENDER_NAME}}
-                                - If a team/department is needed, use {{TEAM_NAME}}
-                                - If a project/product is needed, use {{PROJECT_NAME}}
-                                - If a date or time is needed, use {{DATE}}
-                                - For any other specific detail, create a placeholder using {{UPPER_SNAKE_CASE}}
-
-                                SIGN-OFF REQUIREMENT:
-                                - The reply MUST end with a natural email closing.
-                                - Use ONE of the following formats only:
-                                  • Regards, {{SENDER_NAME}}
-                                  • Best regards, {{TEAM_NAME}}
-                                  • Sincerely, {{ORGANIZATION_NAME}}
-                                """);
-
-                if (tone != null && !tone.isBlank()) {
-                        prompt.append("""
-
-                                        TONE REQUIREMENT:
-                                        - The reply MUST be written in a %s tone.
-                                        - The sign-off MUST match the same tone.
-                                        """.formatted(tone));
-                }
-
-                prompt.append("""
-
-                                ORIGINAL EMAIL:
-                                ---
-                                """);
-
-                prompt.append(emailRequest.getEmailContent());
-
-                prompt.append("""
-                                ---
-
-                                WRITE THE REPLY BELOW.
-                                END WITH A SIGN-OFF USING PLACEHOLDERS:
-                                """);
-
-                return prompt.toString();
-        }
+        return prompt.toString();
+    }
 }
