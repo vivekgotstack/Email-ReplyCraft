@@ -53,7 +53,7 @@ public class EmailGeneratorService {
                 String prompt = buildPrompt(emailRequest);
 
                 Map<String, Object> body = Map.of(
-                                "model", "deepseek/deepseek-chat-v3-0324:free",
+                                "model", "google/gemini-2.0-flash-exp:free",
 
                                 "messages", new Object[] {
                                                 Map.of(
