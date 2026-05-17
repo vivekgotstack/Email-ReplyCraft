@@ -300,15 +300,11 @@ Final-year Computer Science student focused on building production-style full-st
 
 ---
 
-# 💥 Philosophy
-
-Most AI tools try to do everything.
-
-ReplyCraft focuses on one thing:
+# 💥 Hosting Mechanism:
 
 <div align="center">
 
-# Write better replies. Faster.
+# NeonDB for PostgreSQL, Vercel for Frontend & Render for Backend with Docker environment
 
 </div>
 
