@@ -103,8 +103,8 @@ export default function HistoryPanel() {
                   </Badge>
 
                   <span className="text-xs text-slate-500">
-                    {new Date(item.createdAt).toLocaleString("en-US", {
-                        timeZone: "Asia/Kolkata",
+                    {new Date(item.createdAt + "Z").toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
                     })}
                   </span>
                 </div>
