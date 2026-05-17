@@ -298,17 +298,6 @@ Final-year Computer Science student focused on building production-style full-st
 
 </div>
 
----
-
-# 💥 Hosting Mechanism:
-
-<div align="center">
-
-NeonDB for PostgreSQL, Vercel for Frontend & Render for Backend with Docker environment
-
-</div>
-
----
 
 <div align="center">
 
