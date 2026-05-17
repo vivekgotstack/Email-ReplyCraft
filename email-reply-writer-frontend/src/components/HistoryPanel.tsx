@@ -25,6 +25,7 @@ export default function HistoryPanel() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const [expandedItems, setExpandedItems] =
     useState<Set<number>>(new Set());
@@ -35,7 +36,7 @@ export default function HistoryPanel() {
     if (user?.email) {
       loadHistory();
     }
-  }, [page]);
+  }, [page, user?.email]);
 
   const loadHistory = async () => {
     try {
@@ -48,6 +49,7 @@ export default function HistoryPanel() {
       );
 
       setHistory(res.data.content || []);
+      setTotalPages(res.data.totalPages || 0);
     } catch (err) {
       console.error("Failed to load history", err);
     } finally {
@@ -155,7 +157,7 @@ export default function HistoryPanel() {
 
               <Button
                 onClick={() => setPage((p) => p + 1)}
-                disabled={history.length < 10}
+                disabled={page >= totalPages - 1}
                 className="bg-indigo-600 hover:bg-indigo-500 text-white"
               >
                 Next
