@@ -9,9 +9,9 @@ import lombok.Data;
 public class EmailRequestDTO {
 
     @NotBlank(message = "Email content must not be empty")
-    @Size(max = 5000, message = "Email content is too long")
+    @Size(max = 1000, message = "Email content is too long")
     private String emailContent;
 
-    @Size(max = 500, message = "Tone value is too long")
+    @Size(max = 50, message = "Tone value is too long")
     private String tone;
 }

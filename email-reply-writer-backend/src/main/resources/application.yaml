@@ -2,10 +2,34 @@ spring:
   application:
     name: email-reply-writer-backend
 
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    properties:
+      hibernate:
+        format_sql: true
+
+    open-in-view: false
+
 server:
   port: ${PORT:8080}
 
 gemini:
-  api:
-    url: ${GEMINI_URL}
-    key: ${GEMINI_KEY}
+  api-key: ${GEMINI_KEY}
+  api-url: ${GEMINI_URL}
+  timeout-seconds: 30
+  retry-count: 3
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId}] %-5level %logger - %msg%n"

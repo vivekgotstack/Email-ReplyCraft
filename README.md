@@ -2,150 +2,320 @@
 
 # ✨ ReplyCraft
 
+### AI-powered email replies that actually sound human.
+
+Generate polished responses in seconds with customizable tones, secure authentication, and reply history tracking.
+
+<br />
+
+[Live Demo](https://email-reply-craft.vercel.app) • [Tech Stack](#-tech-stack) • [Features](#-features) • [Local Setup](#-run-locally)
+
 </div>
 
-**Write smarter replies. Choose your tone.**
+---
 
-ReplyCraft is a minimal, NOT fast(Free Gemini tier), and sharp AI-powered email reply generator built for people who are tired of overthinking responses.
+# 🚀 Overview
 
-No fluff. No overengineering. Just better replies.
+ReplyCraft is a full-stack AI email reply generator built to remove the friction from writing responses.
+
+Paste an email, choose a tone, and instantly generate a clean, context-aware reply.
+
+No bloated workflows.  
+No unnecessary complexity.  
+Just fast and usable AI assistance.
 
 ---
 
-## 🚀 What it does
+# ✨ Features
 
-Paste any email → pick a tone → get a ready-to-send reply.
+<div align="center">
 
-That’s it.
+| Feature | Description |
+|---|---|
+| 🎭 Tone Control | Professional, Friendly, Concise, Persuasive, Sarcastic |
+| 🧠 AI Reply Generation | Context-aware responses powered by Gemini |
+| 🔐 JWT Authentication | Secure login & registration flow |
+| 📜 Reply History | Stores previously generated replies |
+| ⚡ Fast Frontend | Built with Vite + React |
+| 🎨 Modern UI | Clean dark SaaS-inspired interface |
+| 🌐 Full Deployment | Frontend + Backend fully deployed |
+| 🛡️ Protected APIs | JWT-secured backend endpoints |
+| 📱 Responsive Design | Works across desktop and mobile |
 
----
-
-## 🎯 Features
-
-* ⚡ **Replies with placeholders** — no random names, no mistakes, your control
-* 🎭 **Tone control** — professional, friendly, concise, persuasive, sarcastic
-* 🧠 **Context-aware generation** — understands intent, not just words
-* 🎯 **Clean UI** — distraction-free experience
-* 🌐 **Deployed & usable** — not just a side project
-
----
-
-## 🧪 Live Demo
-
-👉 https://email-reply-craft.vercel.app
+</div>
 
 ---
 
-## 🧰 Tech Stack
+# 🧠 How It Works
 
-**Frontend**
-
-* React + TypeScript + Vite
-* TailwindCSS + Some magical stuff
-
-**Backend**
-
-* Spring Boot
-* REST APIs
-
-**Deployment**
-
-* Vercel (Frontend)
-* Render (Backend)
-
----
-
-## ⚙️ How it works
-
-1. User inputs an email
-2. Selects a tone (or defaults to professional)
-3. Request is sent to backend
-4. AI generates a context-aware reply
-5. Response is returned with placeholder which you can customize before using
+```text
+User Email Input
+       ↓
+Tone Selection
+       ↓
+Spring Boot API
+       ↓
+Gemini AI Processing
+       ↓
+Generated Smart Reply
+       ↓
+Saved To History
+```
 
 ---
 
-## 🧠 Tone System
+# 🎭 Tone System
 
-Each tone changes how the reply behaves:
+ReplyCraft supports multiple response styles:
 
-* **Professional** → clear, workplace-safe
-* **Friendly** → warm and human
-* **Concise** → short and direct
-* **Persuasive** → convincing and structured
-* **Sarcastic** → sharp, witty edge
+| Tone | Behavior |
+|---|---|
+| Professional | Formal, workplace-safe, structured |
+| Friendly | Warm and conversational |
+| Concise | Short, direct, efficient |
+| Persuasive | Convincing and impactful |
+| Sarcastic | Sharp and witty |
+
+If no tone is selected, the system defaults to **Professional**.
 
 ---
 
-## 🛠️ Run Locally
+# 🛠 Tech Stack
 
-### 1. Clone
+<div align="center">
+
+## Frontend
+
+React • TypeScript • Vite • TailwindCSS • shadcn/ui • Axios
+
+## Backend
+
+Spring Boot • Spring Security • JWT • PostgreSQL • JPA/Hibernate
+
+## AI
+
+Gemini API (via OpenRouter)
+
+## Deployment
+
+Vercel • Render
+
+</div>
+
+---
+
+# 📸 Application Flow
+
+## 🔑 Authentication
+
+- User registration
+- Secure login
+- JWT-based authorization
+- Stateless backend security
+
+## ✉️ Reply Generation
+
+- Input original email
+- Choose tone
+- Generate AI reply
+- Copy instantly
+
+## 📜 History Tracking
+
+- Stores generated responses
+- Pagination support
+- View previous replies anytime
+
+---
+
+# 🌐 Live Demo
+
+<div align="center">
+
+## 👉 https://email-reply-craft.vercel.app
+
+</div>
+
+---
+
+# ⚙️ Run Locally
+
+## 📦 Prerequisites
+
+- Java 17+
+- Node.js 18+
+- Maven
+- PostgreSQL
+
+---
+
+# 1️⃣ Clone Repository
 
 ```bash
 git clone https://github.com/your-username/replycraft.git
-cd replycraft
+
+cd Email-ReplyCraft
 ```
 
-### 2. Frontend
+---
+
+# 2️⃣ Backend Setup
 
 ```bash
-cd frontend
-npm install
-npm run dev
+cd email-reply-writer-backend
 ```
 
-### 3. Backend
+## Configure Environment Variables
+
+```env
+DB_URL=jdbc:postgresql://localhost:5432/email_reply_craft
+DB_USERNAME=your_db_username
+DB_PASSWORD=your_db_password
+
+JWT_SECRET=your_super_secret_jwt_key_at_least_32_chars_long
+
+GEMINI_URL=https://openrouter.ai/api/v1/chat/completions
+GEMINI_KEY=your_openrouter_api_key
+
+PORT=8080
+```
+
+## Run Backend
 
 ```bash
-cd backend
 ./mvnw spring-boot:run
 ```
 
----
+Backend runs on:
 
-## ⚠️ Notes
-
-* Default tone is **professional** if none is selected
-* Backend may take a few seconds on first request (Render cold start)
-
----
-
-## 🧩 Future Improvements
-
-* ✉️ Multi-language support
-* 📎 Email threading context
-* 🧠 Smarter tone blending
-* 📋 Copy-to-clipboard & integrations
+```text
+http://localhost:8080
+```
 
 ---
 
-## 🧩 Smart Placeholders
+# 3️⃣ Frontend Setup
 
-ReplyCraft may include placeholders such as:
+```bash
+cd email-reply-writer-frontend
+```
 
-{{PROJECT_NAME}}, {{REPLY_SENDER_NAME}}
+## Install Dependencies
 
-This is by design — it keeps responses flexible and reusable.  
-Replace them with your actual details before sending.
+```bash
+npm install
+```
+
+## Run Frontend
+
+```bash
+npm run dev
+```
+
+Frontend runs on:
+
+```text
+http://localhost:5173
+```
 
 ---
 
-## 👨‍💻 Author
+# 🔐 Security
 
-Built by **Vivek**
-Final year CS student — building real stuff, not tutorials.
+ReplyCraft uses:
 
----
-
-## 💥 Philosophy
-
-Most tools try to do everything.
-
-ReplyCraft does one thing —
-**and does it fast, clean, and right.**
+- JWT Authentication
+- Stateless Spring Security
+- Protected API routes
+- BCrypt password hashing
+- CORS configuration
+- Authentication filters
+- Custom exception handling
 
 ---
 
-## ⭐ If you like it
+# 📂 Project Structure
 
-Drop a star. Or better — use it.
+```text
+Email-ReplyCraft
+│
+├── email-reply-writer-frontend
+│   ├── src
+│   ├── components
+│   ├── lib
+│   └── pages
+│
+├── email-reply-writer-backend
+│   ├── controller
+│   ├── service
+│   ├── repository
+│   ├── security
+│   ├── filter
+│   ├── entity
+│   └── config
+```
+
+---
+
+# ⚠️ Important Notes
+
+- Gemini free tier may respond slowly sometimes
+- Render backend can cold start after inactivity
+- JWT tokens are stored in localStorage
+- All secured APIs require authentication
+- Generated replies may include placeholders intentionally
+
+Example:
+
+```text
+{{PROJECT_NAME}}
+{{REPLY_SENDER_NAME}}
+```
+
+Replace them before sending.
+
+---
+
+# 🧩 Future Improvements
+
+- Multi-language support
+- Streaming AI responses
+- Email thread understanding
+- Tone blending
+- Gmail integration
+- Export & templates
+- AI personalization memory
+
+---
+
+# 👨‍💻 Author
+
+<div align="center">
+
+## Vivek Nigam
+
+Final-year Computer Science student focused on building production-style full-stack applications with Spring Boot and React.
+
+</div>
+
+---
+
+# 💥 Philosophy
+
+Most AI tools try to do everything.
+
+ReplyCraft focuses on one thing:
+
+<div align="center">
+
+# Write better replies. Faster.
+
+</div>
+
+---
+
+<div align="center">
+
+## ⭐ If you like the project, consider giving it a star.
+
+</div>
