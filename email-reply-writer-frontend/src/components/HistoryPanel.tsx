@@ -44,7 +44,7 @@ export default function HistoryPanel() {
       const res = await historyAPI.getHistory(
         user?.email || "",
         page,
-        10
+        3
       );
 
       setHistory(res.data.content || []);
@@ -101,7 +101,9 @@ export default function HistoryPanel() {
                   </Badge>
 
                   <span className="text-xs text-slate-500">
-                    {new Date(item.createdAt).toLocaleString()}
+                    {new Date(item.createdAt).toLocaleString("en-US", {
+                        timeZone: "Asia/Kolkata",
+                    })}
                   </span>
                 </div>
 
