@@ -98,7 +98,7 @@ Gemini API (via OpenRouter)
 
 ## Deployment
 
-Vercel • Render
+Vercel • Render • NeonDB
 
 </div>
 
@@ -304,7 +304,7 @@ Final-year Computer Science student focused on building production-style full-st
 
 <div align="center">
 
-# NeonDB for PostgreSQL, Vercel for Frontend & Render for Backend with Docker environment
+NeonDB for PostgreSQL, Vercel for Frontend & Render for Backend with Docker environment
 
 </div>
 
