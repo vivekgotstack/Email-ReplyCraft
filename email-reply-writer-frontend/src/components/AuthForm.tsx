@@ -123,7 +123,7 @@ export default function AuthForm({ onAuthSuccess }: AuthFormProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold"
+              className="w-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold cursor-pointer"
             >
               {loading ? "Processing..." : isLogin ? "Sign In" : "Create Account"}
             </Button>
@@ -133,7 +133,7 @@ export default function AuthForm({ onAuthSuccess }: AuthFormProps) {
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="text-slate-400 hover:text-white text-sm font-medium transition-colors"
+              className="text-slate-400 hover:text-white text-sm font-medium transition-colors cursor-pointer"
             >
               {isLogin ? "Don't have an account? " : "Already have an account? "}
               <span className="text-slate-100 hover:underline">
