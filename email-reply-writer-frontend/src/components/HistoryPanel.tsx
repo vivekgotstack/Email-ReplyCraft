@@ -150,7 +150,7 @@ export default function HistoryPanel() {
               <Button
                 onClick={() => setPage((p) => Math.max(0, p - 1))}
                 disabled={page === 0}
-                className="bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-100"
+                className="bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-100 cursor-pointer"
               >
                 Previous
               </Button>
@@ -158,7 +158,7 @@ export default function HistoryPanel() {
               <Button
                 onClick={() => setPage((p) => p + 1)}
                 disabled={page >= totalPages - 1}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white"
+                className="bg-indigo-600 hover:bg-indigo-500 text-white cursor-pointer"
               >
                 Next
               </Button>
