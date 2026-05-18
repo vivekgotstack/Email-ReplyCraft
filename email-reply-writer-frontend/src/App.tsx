@@ -139,7 +139,7 @@ export default function App() {
 
             <Button
               onClick={handleLogout}
-              className="bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-100 shadow-lg"
+              className="bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-100 shadow-lg cursor-pointer"
             >
               Logout
             </Button>
@@ -186,7 +186,7 @@ export default function App() {
                     <SelectValue />
                   </SelectTrigger>
 
-                  <SelectContent className="bg-slate-950 border-slate-800 text-slate-100">
+                  <SelectContent className="bg-slate-950 border-slate-800 text-slate-100 cursor-pointer">
                     <SelectItem value="professional">
                       Professional
                     </SelectItem>
@@ -210,7 +210,7 @@ export default function App() {
                 </Select>
               </div>
 
-              <Badge className="bg-indigo-500/15 text-indigo-300 border border-indigo-500/20 h-fit px-3 py-1 rounded-lg">
+              <Badge className="bg-indigo-500/15 text-indigo-300 border border-indigo-500/20 h-fit px-3 py-1 rounded-lg cursor-none">
                 {tone}
               </Badge>
             </div>
@@ -218,7 +218,7 @@ export default function App() {
             <Button
               onClick={generate}
               disabled={loading || !emailContent.trim()}
-              className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-all shadow-lg shadow-indigo-950/40"
+              className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-all shadow-lg shadow-indigo-950/40 cursor-pointer"
             >
               {loading ? "Generating..." : "Generate Reply"}
             </Button>
@@ -235,7 +235,7 @@ export default function App() {
 
                 <Button
                   onClick={() => navigator.clipboard.writeText(response)}
-                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-100"
+                  className="w-full rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-100 cursor-pointer"
                 >
                   Copy to Clipboard
                 </Button>
@@ -247,7 +247,7 @@ export default function App() {
         <div className="flex justify-center mt-8">
           <Button
             onClick={() => setShowHistory(!showHistory)}
-            className="bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-100 rounded-xl px-8"
+            className="bg-slate-900 border border-slate-700 hover:bg-slate-800 text-slate-100 rounded-xl px-8 cursor-pointer"
           >
             {showHistory ? "Hide History" : "View History"}
           </Button>
