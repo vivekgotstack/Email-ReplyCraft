@@ -50,10 +50,39 @@ export default function AuthForm({ onAuthSuccess }: AuthFormProps) {
         onAuthSuccess();
       }
     } catch (err: any) {
-      console.error("Auth error:", err);
-      const errorMsg = err.response?.data?.message || err.response?.data?.error || err.message || "Authentication failed";
-      setError(errorMsg);
-    } finally {
+  console.error("Auth error:", err);
+
+  const status = err.response?.status;
+  const backendMsg =
+    err.response?.data?.message ||
+    err.response?.data?.error ||
+    err.message ||
+    "";
+
+  let errorMsg = "Authentication failed";
+
+  if (isLogin) {
+    if (
+      status === 404 ||
+      backendMsg.toLowerCase().includes("not found") ||
+      backendMsg.toLowerCase().includes("user does not exist") ||
+      backendMsg.toLowerCase().includes("no user")
+    ) {
+      errorMsg = "No account found. Please sign up first.";
+    } else if (
+      status === 401 ||
+      backendMsg.toLowerCase().includes("invalid credentials")
+    ) {
+      errorMsg = "Incorrect email or password.";
+    }
+  } else {
+    if (status === 409 || backendMsg.toLowerCase().includes("already exists")) {
+      errorMsg = "Account already exists. Please sign in.";
+    }
+  }
+
+  setError(errorMsg);
+} finally {
       setLoading(false);
     }
   };
