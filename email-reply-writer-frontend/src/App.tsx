@@ -32,6 +32,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 
+declare global {
+  interface Window {
+    chrome: any;
+  }
+}
+
 export default function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
@@ -44,7 +50,30 @@ export default function App() {
   const [showHistory, setShowHistory] = useState(false);
 
   useEffect(() => {
-    setAuthenticated(isAuthenticated());
+
+    const loggedIn = isAuthenticated();
+
+    setAuthenticated(loggedIn);
+
+    if (loggedIn) {
+
+      const token = localStorage.getItem("token");
+
+      if (token) {
+
+        window.chrome?.runtime?.sendMessage(
+          "ibcpjelmmbkogaafcdoijbffhlnpfacp",
+          {
+            type: "SET_TOKEN",
+            token: token
+          },
+          (response: any) => {
+            console.log("Token synced to extension", response);
+          }
+        );
+      }
+    }
+
   }, []);
 
   const handleAuthSuccess = () => {

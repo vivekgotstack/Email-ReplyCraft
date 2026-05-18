@@ -89,7 +89,7 @@ export const historyAPI = {
   getHistory: (
     email: string,
     page: number = 0,
-    size: number = 10
+    size: number = 3
   ) =>
     api.get("/api/history", {
       params: {

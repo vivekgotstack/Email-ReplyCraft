@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Email ReplyCraft",
+  "version": "1.0",
+
+  "permissions": ["storage"],
+
+  "host_permissions": [
+  "https://mail.google.com/*",
+  "https://email-replycraft.onrender.com/*"
+],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "externally_connectable": {
+    "matches": ["https://email-reply-craft.vercel.app/*"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
