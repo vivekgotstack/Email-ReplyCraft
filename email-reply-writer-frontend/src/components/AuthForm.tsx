@@ -59,7 +59,7 @@ export default function AuthForm({ onAuthSuccess }: AuthFormProps) {
     err.message ||
     "";
 
-  let errorMsg = "Authentication failed";
+  let errorMsg = "No account found. Please sign up first.";
 
   if (isLogin) {
     if (
