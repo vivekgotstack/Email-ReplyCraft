@@ -22,8 +22,8 @@ public class EmailController {
     }
 
     @GetMapping("/ping")
-    public ResponseEntity<String> ping() {
-        return ResponseEntity.ok("alive");
+    public String ping() {
+        return "Alive";
     }
 
     @PostMapping("/generate")
